@@ -110,6 +110,7 @@ const App = () => {
             </ListGroup.Item>
           ))}
         </ListGroup>
+        <h2>Détails</h2>
         <ListGroup>
           {courses.map(course => (
             <ListGroup.Item>
