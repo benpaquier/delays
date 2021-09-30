@@ -25,12 +25,14 @@ const App = () => {
     if (courses.length > 0) {
       fetchStudentNames()
     }
+  // eslint-disable-next-line
   }, [courses])
 
   useEffect(() => {
     if (students.length > 0) {
       doRanking()
     }
+  // eslint-disable-next-line
   }, [students])
   
   const fetchCourses = async () => {
