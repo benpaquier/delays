@@ -31,6 +31,16 @@ const App = () => {
     setRanks(response.ranks) 
   }
 
+  const calculateDuration = minutes => {
+    if (minutes < 60) {
+      return `${minutes} minutes`
+    } else {
+      const hours = Math.floor(minutes / 60)
+      const rest = minutes % 60
+      return `${hours} heure${hours > 1 ? 's' : ''} et ${rest} minutes`
+    }
+  }
+
   if (loading) {
     return (
       <Container className="d-flex justify-content-center pt-5">
@@ -41,13 +51,15 @@ const App = () => {
     )
   }
 
+  // console.log(students)
+
   return (
     <Container className="mt-5 mb-5">
-      <h2>🏆 Classement retards 🏆</h2>
+      <h2 className="mb-5">🏆 Classement retards 🏆</h2>
       <ListGroup className="mb-5">
         {ranks.map(rank => (
           <ListGroup.Item key={rank.lastName}>
-            <p>
+            <p className="m-2">
               <b>
                 {rank.rank === 1 && `🥇`}
                 {rank.rank === 2 && `🥈`}
@@ -55,7 +67,7 @@ const App = () => {
                 {rank.rank}
               </b>
               {` `}
-              {rank.firstName} {rank.lastName}: {rank.delay}mn
+              {rank.firstName} {rank.lastName}: {calculateDuration(rank.delay)}
             </p>
           </ListGroup.Item>
         ))}
@@ -63,12 +75,27 @@ const App = () => {
       <h2>Détails</h2>
       <ListGroup>
         {courses.map(course => (
-          <ListGroup.Item>
-            <p><b>{moment(course.start).format("D-MM-YY hh:mm")} à {moment(course.end).format("hh:mm")}</b></p>
-            <ul>
+          <ListGroup.Item key={course.start}>
+            <p className="mt-2 mb-0"><b>{moment(course.start).format("dddd DD MMM YYYY hh:mm")}</b></p>
+            <p className="m-0 mb-2 fw-light"><i>de {moment(course.start).format("hh:mm")} à {moment(course.end).format("hh:mm")}</i></p>
+            <ul className="mb-2">
               {course.students.map(student => {
+                const firstName = ranks.find(r => r.rank === 1).firstName
+                const studentFirstName = students.find(s => s.ID === student.studentId).FIRSTNAME
+
+                const secondName = ranks.find(r => r.rank === 2).firstName
+                const studentSecondName = students.find(s => s.ID === student.studentId).FIRSTNAME
+
+                const thirdName = ranks.find(r => r.rank === 3).firstName
+                const studentThirdName = students.find(s => s.ID === student.studentId).FIRSTNAME
+
                 return (
-                  <li>{students.find(s => s.ID === student.studentId).FIRSTNAME} {students.find(s => s.ID === student.studentId).LASTNAME}: {student.delay}mn</li>
+                  <li key={student.studentId}>
+                    {studentFirstName === firstName && `🥇`}
+                    {studentSecondName === secondName && `🥈`}
+                    {studentThirdName === thirdName && `🥉`}
+                    {students.find(s => s.ID === student.studentId).FIRSTNAME} {students.find(s => s.ID === student.studentId).LASTNAME}: {student.delay}mn
+                  </li>
                 )
               })}
             </ul>
