@@ -4,6 +4,7 @@ import moment from "moment"
 
 import { Container, ListGroup, Spinner } from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Reveal from "./components/Reveal"
 
 
 const App = () => {
@@ -53,6 +54,12 @@ const App = () => {
 
   // console.log(students)
 
+  const colors = {
+    1: "#ffb100",
+    2: "#8d8d8d",
+    3: "#be5000"
+  }
+
   return (
     <Container className="mt-5 mb-5">
       <h2 className="mb-5">🏆 Classement retards 🏆</h2>
@@ -67,7 +74,13 @@ const App = () => {
                 {rank.rank}
               </b>
               {` `}
-              {rank.firstName} {rank.lastName}: {calculateDuration(rank.delay)}
+              {rank.rank === 1 || rank.rank === 2 || rank.rank === 3 ? (
+                <><Reveal color={colors[rank.rank]} value={`${rank.firstName} ${rank.lastName}`} />{calculateDuration(rank.delay)}</>
+              ) : (
+                <>
+                  {rank.firstName} {rank.lastName}: {calculateDuration(rank.delay)}
+                </>
+              )}
             </p>
           </ListGroup.Item>
         ))}
