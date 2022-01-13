@@ -3,7 +3,6 @@ import moment from "moment"
 
 
 import { Container, ListGroup, Spinner } from "react-bootstrap"
-import { getCourses, getStudents } from "./api"
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
